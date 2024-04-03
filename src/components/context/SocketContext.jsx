@@ -9,6 +9,7 @@ const SocketProvider = ({ children }) => {
     
     useEffect(() => {
         const newSocket = io.connect("https://omegatic-app-helios.koyeb.app");
+        //const newSocket = io.connect("http://localhost:4000");
         setSocket(newSocket);
         console.log("newSocket", newSocket);
 

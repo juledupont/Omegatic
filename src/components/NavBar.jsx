@@ -24,7 +24,7 @@ export default function NavBar() {
   };
 
   return (
-    <Menu inverted style={{ borderRadius: 0 }}>
+    <Menu inverted style={{ borderRadius: 0, minWidth: "max-content" }}>
       <Menu.Item>
         <Header as="h1" style={{ color: "white" }}>
           OmegaTic
