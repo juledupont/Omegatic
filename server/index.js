@@ -30,7 +30,7 @@ const io = new Server(server, {
 
 // Store active rooms and their players
 const rooms = new Map();
-const allUsers = [];
+let allUsers = [];
 
 io.on('connection', (socket) => {
     console.log(`User connected ${socket.id}`);
