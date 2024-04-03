@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import io from 'socket.io-client';
+import Home from './components/Home'; 
+import GameBoard from './components/GameBoard';
+
+const socket = io.connect('http://localhost:4000');
 
 function App() {
+  const [username, setUsername] = useState('');
+  const [room, setRoom] = useState('');
+  const [gameStarted, setGameStarted] = useState(false);
+
+  const joinRoom = () => {
+    if (room !== '' && username !== '') {
+      socket.emit('join_room', { username, room });
+      setGameStarted(true);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className='App'>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <Home
+                username={username}
+                setUsername={setUsername}
+                room={room}
+                setRoom={setRoom}
+                socket={socket}
+                joinRoom={joinRoom}
+              />
+            }
+          />
+          <Route
+            path='/game/:roomName' // Dynamic route parameter for room name
+            element={<GameBoard gameStarted={gameStarted} />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
