@@ -8,7 +8,7 @@ const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     
     useEffect(() => {
-        const newSocket = io.connect("http://localhost:4000");
+        const newSocket = io.connect("https://omegatic-app-helios.koyeb.app");
         setSocket(newSocket);
         console.log("newSocket", newSocket);
 
