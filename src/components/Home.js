@@ -15,7 +15,6 @@ export default function Home() {
           await joinRoom();
           navigate("/game/" );
         } catch (error) {
-          console.log("Room does not exist");
         }
       };
 
@@ -24,7 +23,6 @@ export default function Home() {
         await createRoom();
         navigate("/game");
       } catch (error) {
-        console.log("Room cannot be created");
       }
     }
     

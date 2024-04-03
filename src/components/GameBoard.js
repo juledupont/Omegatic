@@ -20,7 +20,6 @@ function GameBoard() {
     useEffect(() => {
         socket.on("game_state_update", (data) => {
             setGameState(data);
-            console.log("game_state_update", data);
         });
 
         socket.on("game_reset", () => {
@@ -45,8 +44,6 @@ function GameBoard() {
             return;
         }
         else{
-            console.log("player " + gameState.currentPlayer + " clicked on grid " + bigIndex + " at position " + row + ", " + col);
-            console.log("gameState", gameState);
             // Check if the selected grid has already been won
             if (gameState.smallGrids[bigIndex]) {
                 return;
@@ -74,8 +71,6 @@ function GameBoard() {
                 activeGrid: newActiveGrid,
                 playerTurn: gameState.playerTurn === 'X' ? 'O' : 'X' // Switch player turn
             };
-
-            console.log("updatedGameState", updatedGameState);
         
             // Emit the updated game state to the server
             socket.emit("update_game_state", updatedGameState);

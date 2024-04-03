@@ -11,10 +11,7 @@ const SocketProvider = ({ children }) => {
         const newSocket = io.connect("https://omegatic-app-helios.koyeb.app");
         //const newSocket = io.connect("http://localhost:4000");
         setSocket(newSocket);
-        console.log("newSocket", newSocket);
-
-        console.log("connected", socket);
-    
+        
         return () => {
             newSocket.close();
         }

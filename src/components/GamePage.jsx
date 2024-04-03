@@ -23,13 +23,11 @@ export default function GamePage() {
 
     useEffect(() => {
         socket.on("chatroom_users", (data) => {
-          console.log(data);
           updatePlayerList(data);
         });
 
         
         socket.on("game_started", (data) => {
-            console.log("Game started");
             setStarted(true);
             updateMyPlayer(data.player);
           });
