@@ -3,7 +3,6 @@ import 'semantic-ui-css/semantic.min.css';
 import { Grid, Button, Segment, Icon } from 'semantic-ui-react';
 
 class SmallGrid extends React.Component {
-
     renderIcon(cellValue) {
         if (cellValue === 'X') {
             return <Icon name="close"/>;
@@ -14,6 +13,8 @@ class SmallGrid extends React.Component {
 
     render() {
         const { grid, onClick, disabled } = this.props;
+        const { lastCellPosition } = this.props; // Get last cell position from props
+
         return (
             <Segment style={{ margin: "12px" }} color={this.props.bigWin === 'X' && this.props.smallWin==='X' ? 'green' : this.props.bigWin === 'O' && this.props.smallWin==='O' ? 'red' : null}>
                 <Grid columns={3} textAlign="center">
@@ -23,7 +24,8 @@ class SmallGrid extends React.Component {
                                 <Grid.Column key={j}>
                                     <Button icon onClick={() => onClick(i, j)} disabled={disabled} active color={
                                             (cell === 'X' && this.props.smallWin === 'X') ? 'green' :
-                                            (cell === 'O' && this.props.smallWin === 'O') ? 'red' : null
+                                            (cell === 'O' && this.props.smallWin === 'O') ? 'red' :
+                                            (lastCellPosition && lastCellPosition.row === i && lastCellPosition.col === j) ? 'yellow' : null // Apply yellow color to last cell played
                                         }>
                                         {this.renderIcon(cell)}
                                     </Button>
@@ -38,3 +40,4 @@ class SmallGrid extends React.Component {
 }
 
 export default SmallGrid;
+

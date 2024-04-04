@@ -10,6 +10,7 @@ function GameBoard() {
     const {room, myPlayer} = useContext(PlayerContext);
     const [gameState, setGameState] = useState({
         room: room,
+        lastCellPosition: null,
         grids: Array(9).fill().map(() => Array(3).fill().map(() => Array(3).fill(null))),
         smallGrids: Array(9).fill(null),
         winner: null,
@@ -25,6 +26,7 @@ function GameBoard() {
         socket.on("game_reset", () => {
             setGameState({
                 room: room,
+                lastCellPosition: null,
                 grids: Array(9).fill().map(() => Array(3).fill().map(() => Array(3).fill(null))),
                 smallGrids: Array(9).fill(null),
                 winner: null,
@@ -55,6 +57,7 @@ function GameBoard() {
         
             const newGrids = gameState.grids.map(bigGrid => bigGrid.map(row => row.slice())); // Deep copy of grids
             newGrids[bigIndex][row][col] = gameState.playerTurn;
+            const lastCellPosition = { bigIndex, row, col };
         
             const newSmallGrids = [...gameState.smallGrids]; // Shallow copy of smallGrids
             if (checkWinnerSmall(newGrids[bigIndex])) {
@@ -65,14 +68,17 @@ function GameBoard() {
         
             const updatedGameState = {
                 room: gameState.room,
+                lastCellPosition: lastCellPosition,
                 grids: newGrids,
                 smallGrids: newSmallGrids,
                 winner: checkWinnerBig(newSmallGrids),
                 activeGrid: newActiveGrid,
                 playerTurn: gameState.playerTurn === 'X' ? 'O' : 'X' // Switch player turn
             };
-        
+
+            setGameState(updatedGameState);
             // Emit the updated game state to the server
+            
             socket.emit("update_game_state", updatedGameState);
 
         }
@@ -142,6 +148,8 @@ function GameBoard() {
                 rowGrids.push(
                     <Grid.Column key={gridIndex}>
                         <SmallGrid
+                            //if the same bigIndex as in the last cell position, pass the last cell position to the small grid
+                            lastCellPosition={gameState.lastCellPosition.bigIndex === gridIndex ? gameState.lastCellPosition : null}
                             grid={gameState.grids[gridIndex]}
                             onClick={(row, col) => handleClick(gridIndex, row, col)}
                             disabled={gameState.winner || (gameState.activeGrid !== null && gameState.activeGrid !== gridIndex)}
