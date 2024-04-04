@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import SmallGrid from './SmallGrid';
 import { SocketContext } from "./context/SocketContext";
@@ -147,27 +147,33 @@ function GameBoard() {
                 const gridIndex = i * 3 + j;
                 rowGrids.push(
                     <Grid.Column key={gridIndex}>
-                        <SmallGrid
+                        <SmallGrid 
                             //if the same bigIndex as in the last cell position, pass the last cell position to the small grid
-                            lastCellPosition={gameState.lastCellPosition  && gameState.lastCellPosition.bigIndex === gridIndex ? gameState.lastCellPosition : null}
+                            lastCellPosition={gameState.lastCellPosition && gameState.lastCellPosition.bigIndex === gridIndex ? gameState.lastCellPosition : null}
                             grid={gameState.grids[gridIndex]}
                             onClick={(row, col) => handleClick(gridIndex, row, col)}
-                            disabled={gameState.winner || (gameState.activeGrid !== null && gameState.activeGrid !== gridIndex)}
+                            disabled={gameState.winner || (gameState.activeGrid !== null && gameState.activeGrid !== gridIndex) || gameState.smallGrids[gridIndex]}
                             smallWin={gameState.smallGrids[gridIndex]}
                             bigWin={gameState.winner}
                         />
                     </Grid.Column>
                 );
             }
-            bigGrids.push(<Grid.Row key={i}>{rowGrids}</Grid.Row>);
+            bigGrids.push(
+                <Grid.Row key={i} style={{ marginLeft: '1em', marginRight: '1em' }}>
+                    {rowGrids}
+                </Grid.Row>
+            );
         }
         return (
             <div className="game-board">
                 <Grid columns={3} centered >
                     {bigGrids}
                 </Grid>
-                <div style={{marginTop: '50px', textAlign: 'center'}}>
-                    {gameState.winner ? `Player ${gameState.winner} wins!` : `Player ${gameState.playerTurn}'s turn`}
+                <div style={{marginTop: '30px', textAlign: 'center'}}>
+                    <Header as="h2">
+                        {gameState.winner ? `Player ${gameState.winner} wins!` : gameState.playerTurn === myPlayer ? "Your turn " : "Opponent's turn "}
+                    </Header>
                     <button onClick={() => {
                         socket.emit("reset_game", { room: gameState.room });
                     }}>Reset</button>
@@ -179,7 +185,6 @@ function GameBoard() {
     return (
         <div>
             {renderGrid()}
-            {myPlayer !== gameState.playerTurn && <div>Waiting for opponent's turn...</div>}
         </div>
     );
 }
