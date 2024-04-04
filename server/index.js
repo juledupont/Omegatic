@@ -26,7 +26,7 @@ const io = new Server(server, {
     origin: 'https://omegatic.vercel.app',
     //origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
-  },
+  },  
 });
 
 // Store active rooms and their players
@@ -36,13 +36,27 @@ let allUsers = [];
 io.on('connection', (socket) => {
     console.log(`User connected ${socket.id}`);
 
+    socket.on('list_rooms', () => {
+      socket.emit('room_list',
+        Array.from(rooms.keys()).map((room) => {
+          const users = Array.from(rooms.get(room));
+          if (users.length === 1) {
+            return {
+              room,
+              users,
+            };
+          }
+        }).filter(Boolean)
+      );
+    });
+
     socket.on('create_room', (data) => {
       const { username} = data;
       const room = generateRandomString(6);
       // You may emit an event here to send the room code back to the client, if needed
       socket.emit('room_created', room);
       joinExistingRoom(socket, room, username, allUsers);
-      io.emit('room_list', Array.from(rooms.keys()));
+      rooms.set(room, new Set([username]));
     });
 
     socket.on('join_room', (data) => {
@@ -64,6 +78,8 @@ io.on('connection', (socket) => {
     
         // Send the codeof the room to the client
         socket.emit('room_code', room);
+
+        rooms.get(room).add(username);
     
         joinExistingRoom(socket, room, username, allUsers);
     
@@ -76,6 +92,10 @@ io.on('connection', (socket) => {
         socket.leave(room);
         // Remove user from memory
         allUsers = leaveRoom(socket.id, allUsers);
+        //remove the room from the list of rooms if there are no users in it
+        if (allUsers.filter((user) => user.room === room).length === 0) {
+          rooms.delete(room);
+        }
         socket.to(room).emit('chatroom_users', allUsers); // Notify other clients in the room about the updated player list
         console.log(`${username} left room ${room}`);
       });

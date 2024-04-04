@@ -9,6 +9,7 @@ const PlayerProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
   const [playerList, setPlayerList] = useState([]);
   const [myPlayer, setMyPlayer] = useState(null);
+  const [allRooms, setAllRooms] = useState([]);
 
   const updatePlayerList = (newPlayerList) => {
     setPlayerList(newPlayerList);
@@ -18,10 +19,23 @@ const PlayerProvider = ({ children }) => {
     setMyPlayer(player);
   };
 
+  const updateUsername = (username) => {
+    setUsername(username);
+  };
+
+  const listAllRooms = () => {
+    return new Promise((resolve, reject) => {
+      socket.emit("list_rooms");
+      socket.on("room_list", (data) => {
+        setAllRooms(data);
+        resolve(true);
+      });
+    });
+
+  }
+
   const createRoom = () => {
     return new Promise((resolve, reject) => {
-      const username = document.getElementById("usernameInput").value;
-      setUsername(username);
       if (username !== "") {
         socket.emit("create_room", {
           username,
@@ -36,11 +50,8 @@ const PlayerProvider = ({ children }) => {
     });
   };
 
-  const joinRoom = () => {
+  const joinRoom = (room) => {
     return new Promise((resolve, reject) => {
-      const room = document.getElementById("roomCodeInput").value;
-      const username = document.getElementById("usernameInput").value;
-      setUsername(username);
       if (room !== "" && username !== "") {
         socket.emit("join_room", {
           username,
@@ -74,17 +85,20 @@ const PlayerProvider = ({ children }) => {
   return (
     <PlayerContext.Provider
       value={{
+        socket,
         room,
         username,
         playerList,
         myPlayer,
+        allRooms,
         soloPlay,
         updateMyPlayer,
         createRoom,
         joinRoom,
         updatePlayerList,
         leaveRoom,
-        setUsername,
+        updateUsername,
+        listAllRooms,
       }}
     >
       {children}

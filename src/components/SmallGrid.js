@@ -25,7 +25,8 @@ class SmallGrid extends React.Component {
                                     <Button icon onClick={() => onClick(i, j)} disabled={disabled} active color={
                                             (cell === 'X' && this.props.smallWin === 'X') ? 'green' :
                                             (cell === 'O' && this.props.smallWin === 'O') ? 'red' :
-                                            (lastCellPosition && lastCellPosition.row === i && lastCellPosition.col === j) ? 'yellow' : null // Apply yellow color to last cell played
+                                            (lastCellPosition && lastCellPosition.row === i && lastCellPosition.col === j && lastCellPosition.player==='O') ? 'yellow' : 
+                                            (lastCellPosition && lastCellPosition.row === i && lastCellPosition.col === j && lastCellPosition.player==='X') ? 'blue': null // Apply yellow color to last cell played
                                         }>
                                         {this.renderIcon(cell)}
                                     </Button>

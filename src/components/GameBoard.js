@@ -57,7 +57,7 @@ function GameBoard() {
         
             const newGrids = gameState.grids.map(bigGrid => bigGrid.map(row => row.slice())); // Deep copy of grids
             newGrids[bigIndex][row][col] = gameState.playerTurn;
-            const lastCellPosition = { bigIndex, row, col };
+            const lastCellPosition = { bigIndex, row, col, player: gameState.playerTurn};
         
             const newSmallGrids = [...gameState.smallGrids]; // Shallow copy of smallGrids
             if (checkWinnerSmall(newGrids[bigIndex])) {

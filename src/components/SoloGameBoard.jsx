@@ -90,7 +90,7 @@ function SoloGameBoard() {
 
         const newGrids = gameState.grids.map(bigGrid => bigGrid.map(row => row.slice())); // Deep copy of grids
         newGrids[bigIndex][row][col] = gameState.playerTurn;
-        const lastCellPosition = { bigIndex, row, col };
+        const lastCellPosition = { bigIndex, row, col, player: gameState.playerTurn };
 
         const newSmallGrids = [...gameState.smallGrids]; // Shallow copy of smallGrids
         if (checkWinnerSmall(newGrids[bigIndex])) {
@@ -123,7 +123,7 @@ function SoloGameBoard() {
             if (aiMove) {
                 const newGrids = gameState.grids.map(bigGrid => bigGrid.map(row => row.slice())); // Deep copy of grids
                 newGrids[aiMove.bigIndex][aiMove.row][aiMove.col] = gameState.playerTurn;
-                const lastCellPosition = { bigIndex: aiMove.bigIndex, row: aiMove.row, col: aiMove.col };
+                const lastCellPosition = { bigIndex: aiMove.bigIndex, row: aiMove.row, col: aiMove.col, player: gameState.playerTurn};
 
                 const newSmallGrids = [...gameState.smallGrids]; // Shallow copy of smallGrids
                 if (checkWinnerSmall(newGrids[aiMove.bigIndex])) {
