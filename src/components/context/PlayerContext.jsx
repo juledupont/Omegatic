@@ -60,6 +60,11 @@ const PlayerProvider = ({ children }) => {
     });
   };
 
+  const soloPlay = () => {
+    setUsername("Player 1");
+    setRoom("solo");
+  };
+
   const leaveRoom = () => {
     const __createdtime__ = Date.now();
     socket.emit("leave_room", { username, room, __createdtime__ });
@@ -73,6 +78,7 @@ const PlayerProvider = ({ children }) => {
         username,
         playerList,
         myPlayer,
+        soloPlay,
         updateMyPlayer,
         createRoom,
         joinRoom,

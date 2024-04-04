@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Home";
 import GamePage from "./GamePage";
+import SoloGamePage from "./SoloGamePage";
 
 export default function (props) {
   const router = createBrowserRouter([
@@ -18,7 +19,11 @@ export default function (props) {
     {
         path: "/game",
         element: <GamePage />,
-    }
+    },
+    {
+        path: "/solo",
+        element: <SoloGamePage />,
+    },
   ]);
 
   return (

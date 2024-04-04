@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
     const navigate = useNavigate();
-    const { room, username, joinRoom, createRoom } = useContext(PlayerContext);
+    const { room, username, joinRoom, createRoom, soloPlay } = useContext(PlayerContext);
 
     const roomCodeInput = document.getElementById("roomCodeInput");
 
@@ -22,6 +22,14 @@ export default function Home() {
       try {
         await createRoom();
         navigate("/game");
+      } catch (error) {
+      }
+    }
+
+    const soloNavigate = async () => {
+      try {
+        await soloPlay();
+        navigate("/solo");
       } catch (error) {
       }
     }
@@ -68,7 +76,17 @@ export default function Home() {
                           </Form.Group>
                       </Form>
                   </Segment>
-              </Grid.Column>
+                  <Segment>
+                    <Form.Button fluid
+                    color="green"
+                    size="large"
+                    type="submit"
+                    onClick={soloNavigate}
+                    >
+                    <Icon name='user'/> Solo
+                    </Form.Button>
+                  </Segment>
+               </Grid.Column>
           </Grid>
       </div>
     );

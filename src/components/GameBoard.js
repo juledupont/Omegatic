@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Button } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import SmallGrid from './SmallGrid';
 import { SocketContext } from "./context/SocketContext";
@@ -174,9 +174,9 @@ function GameBoard() {
                     <Header as="h2">
                         {gameState.winner ? `Player ${gameState.winner} wins!` : gameState.playerTurn === myPlayer ? "Your turn " : "Opponent's turn "}
                     </Header>
-                    <button onClick={() => {
+                    <Button onClick={() => {
                         socket.emit("reset_game", { room: gameState.room });
-                    }}>Reset</button>
+                    }}>Reset</Button>
                 </div>
             </div>
         );
