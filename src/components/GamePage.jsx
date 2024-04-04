@@ -40,7 +40,7 @@ export default function GamePage() {
       }, [socket, room, navigate, playerList]);
 
     return (
-        <div>
+        <div style={{minWidth: "min-content"}}>
             <NavBar/>
             {!started && playerList.length < 2 && <h1>Waiting for another player...</h1>}
             {playerList.length === 2 && !started && <Button onClick={startGame}>Start Game</Button>}

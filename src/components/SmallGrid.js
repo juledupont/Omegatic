@@ -16,7 +16,7 @@ class SmallGrid extends React.Component {
         const { lastCellPosition } = this.props; // Get last cell position from props
 
         return (
-            <Segment style={{minWidth:"155px"}} color={this.props.bigWin === 'X' && this.props.smallWin==='X' ? 'green' : this.props.bigWin === 'O' && this.props.smallWin==='O' ? 'red' : null}>
+            <Segment style={{minWidth:"130px"}} color={this.props.bigWin === 'X' && this.props.smallWin==='X' ? 'green' : this.props.bigWin === 'O' && this.props.smallWin==='O' ? 'red' : null}>
                 <Grid columns={3} textAlign="center">
                     {grid.map((row, i) => (
                         <Grid.Row key={i}>

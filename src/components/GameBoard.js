@@ -160,7 +160,7 @@ function GameBoard() {
                 );
             }
             bigGrids.push(
-                <Grid.Row key={i} style={{ marginLeft: '1em', marginRight: '1em' }}>
+                <Grid.Row key={i}>
                     {rowGrids}
                 </Grid.Row>
             );
