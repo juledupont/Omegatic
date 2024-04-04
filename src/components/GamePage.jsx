@@ -5,7 +5,7 @@ import "semantic-ui-css/semantic.min.css";
 import { PlayerContext } from "./context/PlayerContext";
 import { SocketContext } from "./context/SocketContext";
 import { useNavigate } from "react-router-dom";
-import { Button } from "semantic-ui-react";
+import { Button, Header, Container } from "semantic-ui-react";
 
 export default function GamePage() {
     const socket = useContext(SocketContext);
@@ -42,8 +42,10 @@ export default function GamePage() {
     return (
         <div style={{minWidth: "min-content"}}>
             <NavBar/>
-            {!started && playerList.length < 2 && <h1>Waiting for another player...</h1>}
+            <Container textAlign="center">
+            {!started && playerList.length < 2 && <Header as="h2">Waiting for another player...</Header>}
             {playerList.length === 2 && !started && <Button onClick={startGame}>Start Game</Button>}
+            </Container>
             {started && <GameBoard />}
 
         </div>

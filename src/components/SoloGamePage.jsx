@@ -5,7 +5,7 @@ import "semantic-ui-css/semantic.min.css";
 import { PlayerContext } from "./context/PlayerContext";
 import { SocketContext } from "./context/SocketContext";
 import { useNavigate } from "react-router-dom";
-import { Button, Header } from "semantic-ui-react";
+import { Button, Container, Header } from "semantic-ui-react";
 import SoloGameBoard from "./SoloGameBoard";
 
 
@@ -17,10 +17,12 @@ export default function SoloGamePage() {
     return (
         <div style={{minWidth: "min-content"}}>
             <NavBar/>
-            {!started && <div><Header as="h2">Choose your player</Header>
-             <Button onClick={() => {updateMyPlayer("X"); setStarted(true);}}>X</Button>
-            <Button onClick={() => {updateMyPlayer("O"); setStarted(true);}}>O</Button>
-            </div>
+            {!started && 
+            <Container textAlign="center">
+                <Header as="h2">Choose your player</Header>
+                <Button onClick={() => {updateMyPlayer("X"); setStarted(true);}}>X</Button>
+                <Button onClick={() => {updateMyPlayer("O"); setStarted(true);}}>O</Button>
+            </Container>
             }
 
             {started && <SoloGameBoard />}
