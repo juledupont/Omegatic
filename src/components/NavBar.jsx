@@ -6,7 +6,7 @@ import { PlayerContext } from "./context/PlayerContext";
 import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
-  const { room, leaveRoom } = useContext(PlayerContext);
+  const { room, leaveRoom, myPlayer } = useContext(PlayerContext);
   const navigate = useNavigate();
 
   const [popupOpen, setPopupOpen] = useState(false);
@@ -30,6 +30,13 @@ export default function NavBar() {
           OmegaTic
         </Header>
       </Menu.Item>
+      {room && (
+        <Menu.Item> 
+          Player: {myPlayer}
+        </Menu.Item>
+      )
+      }
+      
       {room && (
         <Menu.Menu position="right">
           <Menu.Item

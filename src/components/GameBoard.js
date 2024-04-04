@@ -149,7 +149,7 @@ function GameBoard() {
                     <Grid.Column key={gridIndex}>
                         <SmallGrid
                             //if the same bigIndex as in the last cell position, pass the last cell position to the small grid
-                            lastCellPosition={gameState.lastCellPosition.bigIndex === gridIndex ? gameState.lastCellPosition : null}
+                            lastCellPosition={gameState.lastCellPosition  && gameState.lastCellPosition.bigIndex === gridIndex ? gameState.lastCellPosition : null}
                             grid={gameState.grids[gridIndex]}
                             onClick={(row, col) => handleClick(gridIndex, row, col)}
                             disabled={gameState.winner || (gameState.activeGrid !== null && gameState.activeGrid !== gridIndex)}
