@@ -3,6 +3,7 @@ import { Grid, Header, Form, Segment, Icon, List, Modal, Button } from "semantic
 import { PlayerContext } from "./context/PlayerContext";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react"
 
 export default function Home() {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export default function Home() {
 
   return (
     <div>
+      <Analytics />
       <NavBar />
       {!username && (
       <Grid color="black" textAlign="center" style={{ height: "90vh" }} verticalAlign="middle">
